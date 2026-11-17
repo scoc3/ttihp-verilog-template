@@ -19,7 +19,6 @@ So, we have protocols and we have specific idioms that they all share. I won't g
 
 ### UART
 
-```
 flowchart TB
     subgraph UART["UART"]
         direction TB
@@ -38,11 +37,10 @@ flowchart TB
         CLK -.-> TX_SHIFT
         CLK -.-> RX_SHIFT
     end
-```
 
-SPI
-I2C
-low-speed USB 
-10Mbit Ethernet
-HDMI?
+### SPI
+### I2C
+### low-speed USB 
+### 10Mbit Ethernet
+### HDMI?
 
