@@ -11,7 +11,7 @@ When thinking about this challenge, it isnt enought to just quickly bang out a p
 *Let's add a little more detail around each issue, before diving into them on their own documentation page!*
 
 ## Supporting as many protocols as possible?
-So from the Jane Street Blog(https://blog.janestreet.com/protocol-emulator-asic-competition/) they recommend starting with UART, SPI, and I2C.  However, I think it's possible that developers could focus too hard on the implementation of these protocols and pidgeon hole themselves into a design that is non optimal or less reconfigurable.  
+So from the Jane Street Blog(https://blog.janestreet.com/protocol-emulator-asic-competition/) they recommend starting with UART, SPI, and I2C.  However, I think it's possible that developers could focus too hard on the implementation of these protocols using a CPU implementation and pidgeon hole themselves into a design that is non optimal or less reconfigurable.  
 
 For my case I will examine the different protocols to see what they share in terms of digital design. I will also examine the stated inspiration materials:
 - PIO state machines

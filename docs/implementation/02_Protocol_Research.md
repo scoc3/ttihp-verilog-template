@@ -15,32 +15,61 @@ So that is what we are doing!
 
 Firstly, let's not focus too much on developing a solution straight away by making SRAMs or creating an instruction list, etc.  Let's break the problem down into the fundamental functions required to make this work. 
 
-So, we have protocols and we have specific idioms that they all share. I won't go into the specific detail behind each protocol and how it works, but instead I will state their speciifc use
+So, we have protocols and we have specific idioms that they all share. I won't go into the specific detail behind each protocol and how it works, but instead I will state their specific data structure.  Since that is what we are trying to achieve. 
 
 ### UART
 
-flowchart TB
-    subgraph UART["UART"]
-        direction TB
-        TX["Transmit Register"]
-        TX_SHIFT["TX Shift Register"]
-        RX_SHIFT["RX Shift Register"]
-        RX["Receive Register"]
-        CLK["Clock Generator"]
-
-        TX --> TX_SHIFT
-        TX_SHIFT -->|Serial TX| TX_OUT["TX Output"]
-
-        RX_IN["RX Input"] -->|Serial RX| RX_SHIFT
-        RX_SHIFT --> RX
-
-        CLK -.-> TX_SHIFT
-        CLK -.-> RX_SHIFT
-    end
+- Asynchronous
+- Idle (logic high (1))
+- Start bit (logic low (0)): the start bit signals to the receiver that a new character is coming.
+- Data bits: the next five to nine bits, depending on the code set employed, represent the character.
+- Parity bit: if a parity bit is used, it would be placed after all of the data bits. The parity bit is a way for the receiving UART to tell if any data has changed during transmission.
+- Stop (logic high (1)): the next one or two bits are always in the mark (logic high, i.e., 1) condition and called the stop bit(s). They signal to the receiver that the character is complete. Since the stop bit is logic high (1) and the start bit is logic low (0), there is always at least one guaranteed signal change between characters. If the line is held in the logic low condition for longer than a character time, this is a break condition that can be detected by the UART.
 
 ### SPI
+
+- Synchronous (SCLK)
+- Select Signal (SS)
+- Needs to transmit ...
+- and receive serial data aligned with a clk (MOSI and MISO).
+
+---
+*So far, we have discovered that with the following digital logic blocks, we can create a UART and SPI protocol emulator.  Note, this is very simple, but we will build on it in a while to create more complex structures:*
+
+1. An Asynchronous/Synchronous DataOut FIFO (connected to clock when we are in SPI mode.)
+2. A LUT containing the start bit/stop bit. Or when the select signal is Low on SPI.
+ (For future sake, let's call these specific structures per communications protocol a "Protocol Glyph". As they are a symbol that is required when transmitting the data, but arent data bits.)
+3. A synchronous DataIn FIFO (for receiving data for SPI)
+4. Idle High logic for Uart
+5. CRC calc block for the data bits - UART.
+
+
+---
+
 ### I2C
+
+
+
 ### low-speed USB 
 ### 10Mbit Ethernet
 ### HDMI?
+
+so lets think out loud for a sec
+
+we probs need a fifo for data in, data out
+some form of hard logic CRC calc, that will be high during transmission
+an address block
+a glyph LUT and map - which will show the glyphs before and after data to the orchestrator
+the orchestrator - which will basically be like the CPU in which you tell it which parts of the function you would like.
+
+so with the fifo idea you an asynchronously load it, then synchronously deload it using the orchestrator.
+The orchestrator will need 2 Fifos and 2 LUTs. 
+1 LUT/SRAM to hold the tranmission data which is inserted by operator
+1 FIFO to hold the receival data
+1 LUT to hold the transmission sequence
+1 LUT to hold the glyph map - what data should be transmitted where.
+1 Encoder? for encoded data? is that worth it?
+
+
+how is this different to a CPU? well the hard blocks are different and the orchestrator is actually quite a bit different its not just reads and writes its pulling stuff from LUTs all the time.
 
