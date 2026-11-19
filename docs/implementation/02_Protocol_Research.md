@@ -74,15 +74,17 @@ As you can tell, things are starting to get difficult! The more protocols you ad
 - Efficiently handle the encoding of glyphs: start bits & frames, stop bits & frames, identifiers.  Why dont you just copy that data for each frame?  Borrowing from texture maps in video games, it doesnt make sense to copy that data for every time you want to use it.  You'd rather store a pointer to those instances of data and instructions on how to run them.
 - The ability to output data: 1 clock cycle, for multiple clock cycles, and based on data stored in memory.
 - The ability to read data into memory.
-- The ability to calculate a CRC On data 
+- The ability to calculate a CRC On data and store that.
 
-so lets think out loud for a sec
 
-we probs need a fifo for data in, data out
-some form of hard logic CRC calc, that will be high during transmission
+--- 
+so lets think out loud for a sec how that translates to digital design:
+
+- we probs need a fifo for data in, data out
+- some form of hard reconfigurable logic CRC calc - like a reconf wall of XORs, that will enabled during transmission
 an address block
-a glyph LUT and map - which will show the glyphs before and after data to the orchestrator
-the orchestrator - which will basically be like the CPU in which you tell it which parts of the function you would like.
+- a glyph LUT and map - which will show the glyphs before and after data to the orchestrator
+- an orchestrator - which will basically be like the CPU in which you tell it which parts of the function you would like.
 
 so with the fifo idea you an asynchronously load it, then synchronously deload it using the orchestrator.
 The orchestrator will need 2 Fifos and 2 LUTs. 
@@ -93,5 +95,9 @@ The orchestrator will need 2 Fifos and 2 LUTs.
 1 Encoder? for encoded data? is that worth it?
 
 
-how is this different to a CPU? well the hard blocks are different and the orchestrator is actually quite a bit different its not just reads and writes its pulling stuff from LUTs all the time.
+how is this different to a CPU? well the hard blocks are different and the orchestrator is actually quite a bit different its not just reads and writes i1 LUT/SRAM to hold the tranmission data which is inserted by operator
+1 FIFO to hold the receival data
+1 LUT to hold the transmission sequence
+1 LUT to hold the glyph map - what data should be transmitted where.
+1 Encoder? for encoded data? is that worth it?ts pulling stuff from LUTs all the time.
 
