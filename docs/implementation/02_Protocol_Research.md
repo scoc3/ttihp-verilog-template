@@ -61,10 +61,20 @@ apart from that, its the same as before.
 
 
 ### Low-speed USB
+Low speed USB adds 2 further problem cases.  Checking frames instead of a data bit (A sequence of data bits rather than a single bit)
+
+you have further logic built in if a target asks for the same packet again!
+
+---
+
+As you can tell, things are starting to get difficult! The more protocols you add the more tiny little differences there are between protocols.  Therefore its important to focus on the primitives - i.e. what you need to be able to do from a high level. If i were to list them all in a big jumble, then my protocol emulator needs to be able to do the following:
 
 
-### 10Mbit Ethernet
-
+- On the fly reconfiguration of ports: a port needs to be reconfigurable from a clk, data pin, differential pair, steady high/low. 
+- Efficiently handle the encoding of glyphs: start bits & frames, stop bits & frames, identifiers.  Why dont you just copy that data for each frame?  Borrowing from texture maps in video games, it doesnt make sense to copy that data for every time you want to use it.  You'd rather store a pointer to those instances of data and instructions on how to run them.
+- The ability to output data: 1 clock cycle, for multiple clock cycles, and based on data stored in memory.
+- The ability to read data into memory.
+- The ability to calculate a CRC On data 
 
 so lets think out loud for a sec
 
