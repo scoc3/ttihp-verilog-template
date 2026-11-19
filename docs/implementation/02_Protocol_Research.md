@@ -48,11 +48,23 @@ So, we have protocols and we have specific idioms that they all share. I won't g
 
 ### I2C
 
+This protocol is a bit harder because it directly results on communications from downstream devices to proceed with transactions.  
+
+so there needs to be some form of logic to check that data is a 1 or 0 on a certain clock cycle. 
+The logic also needs to be able to wait until said data is the value we want it to be.
+
+apart from that, its the same as before.
+
+1. The ability to set a clock on a pin out
+2. The ability to set some data on a clock out. (idle, stop conditions, etc).
+3. The ability to store repeatable transaction structures (glyphs) and output them.
 
 
-### low-speed USB 
+### Low-speed USB
+
+
 ### 10Mbit Ethernet
-### HDMI?
+
 
 so lets think out loud for a sec
 
